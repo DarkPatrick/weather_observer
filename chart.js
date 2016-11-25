@@ -198,11 +198,11 @@ function doAllStuff(file_data) {
   var ctx = c.getContext("2d");
   ctx.strokeStyle="#FF0000";
   ctx.beginPath();
-  ctx.moveTo(good_dates[0], data_arr.temperature[arr_idx[0]]);
-  //ctx.lineTo(300, 150);
-  //ctx.lineTo(600, 0);
+  ctx.moveTo(good_dates[0], 200 - data_arr.temperature[arr_idx[0]]);
+  var cur_pos = 0;
   for (var i = 1; i < total_num; i++) {
-    ctx.lineTo(good_dates[i], data_arr.temperature[arr_idx[i]]);
+    cur_pos += good_dates[i];
+    ctx.lineTo(cur_pos, 200 - data_arr.temperature[arr_idx[i]]);
   }
   ctx.stroke();
 }
@@ -210,14 +210,8 @@ function doAllStuff(file_data) {
 
 var xhr;
 var old_response = "";
-var dims = 3;
-var max_rows = 10000;
-/*var date_arr = new Array(max_rows);
 
-for(var i = 0; i < max_rows; i++) {
-  date_arr[i] = new Array(dims);
-}
-*/
 
 get_data();
 setInterval(get_data, 20000);
+
