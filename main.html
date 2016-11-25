@@ -1,28 +1,33 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
   <link href="style.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
-  <script>
-    var h = (document.body.clientHeight) / 2;
-    var w = (document.body.clientWidth) * 0.95;
-  </script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <div id = "main"><div>
-  <script>
-    var temperature = document.createElement('div');
-    temperature.style = "height: " + h + "px; width: " + w + "px;";
-    temperature.id = "temperature_chart_div";
-    document.getElementById("main").appendChild(temperature);
 
-    var pressure = document.createElement('div');
-    pressure.style = "height: " + h + "px; width: " + w + "px;";
-    pressure.id = "pressure_chart_div";
-    document.getElementById("main").appendChild(pressure);
-  </script>
-  <script type="text/javascript" src="chart_with_time_series.js"></script>
+<div id = "main"><div>
+
+<script>
+  var w = (document.body.clientWidth) * 0.95;
+  var h = (document.body.clientHeight) / 2;
+
+  var temperature = document.createElement('canvas');
+  temperature.width = w;
+  temperature.height = h;
+  temperature.style = "border:1px solid #d3d3d3;";
+  temperature.id = "temperature_chart_canvas";
+  document.getElementById("main").appendChild(temperature);
+
+  var pressure = document.createElement('canvas');
+  pressure.width = w;
+  pressure.height = h;
+  pressure.style = "border:1px solid #d3d3d3;";
+  pressure.id = "pressure_chart_canvas";
+  document.getElementById("main").appendChild(pressure);
+</script>
+
+<script type="text/javascript" src="chart.js"></script>
+
 </body>
 </html>
