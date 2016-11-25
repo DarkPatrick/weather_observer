@@ -13,10 +13,10 @@ class DateTime {
       this.hour = parseInt(arguments[3]);
       this.minute = parseInt(arguments[4]);
     }
-    leap_years = (this.year - 1) / 4 - (this.year - 1) / 100 + (this.year - 1) / 400;
-    non_leap_years = this.year - leap_years;
-    m_in_y = leap_years * 527040 + non_leap_years * 525600;
-    m_in_m = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+    var leap_years = (this.year - 1) / 4 - (this.year - 1) / 100 + (this.year - 1) / 400;
+    var non_leap_years = this.year - leap_years;
+    var m_in_y = leap_years * 527040 + non_leap_years * 525600;
+    var m_in_m = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
     if (((this.year % 4 == 0) && (this.year % 100 != 0)) || (this.year % 400 == 0)) {
       m_in_m[1] = 29;
     }
@@ -147,7 +147,7 @@ function get_data() {
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState != 4) return;
-  
+
     if (xhr.status != 200) {
       alert(xhr.status + ': ' + xhr.statusText);
     } else {
@@ -162,30 +162,49 @@ function get_data() {
 };
 
 function doAllStuff(file_data) {
-  var data_arr = new FullDataArray(file_data)
+  var window_width = 800;
+
+  var data_arr = new FullDataArray(file_data);
   var min_date = new DateTime(05, 11, 2016, 20, 28);
   var max_date = new DateTime(15, 11, 2016, 20, 37);
 
   var total_num = 0;
+  var good_dates = new Array();
+  var arr_idx = new Array();
+  var last_date = 0;
+  var fist_date = 0;
+
   for (var i = 0; i < data_arr.nums; i++) {
-    if ((data_arr.date_time.ful_val >= min_date.ful_val) &&
-        (data_arr.date_time.ful_val <= max_date.ful_val)) {
+    if ((data_arr.date_time[i].ful_val >= min_date.ful_val) &&
+        (data_arr.date_time[i].ful_val <= max_date.ful_val)) {
+      if (total_num == 0) {
+        good_dates[total_num] = 0;
+        fist_date = data_arr.date_time[i].ful_val;
+      } else {
+        good_dates[total_num] = data_arr.date_time[i].ful_val - last_date;
+      }
+      last_date = data_arr.date_time[i].ful_val;
+      arr_idx[total_num] = i;
       total_num++;
     }
   }
-  /*
+  last_date -= fist_date;
+  var step = window_width / last_date;
+  for (var i = 0; i < total_num; i++) {
+    good_dates[i] = Math.round(good_dates[i] * step);
+  }
+
   var c = document.getElementById("temperature_chart_canvas");
   var ctx = c.getContext("2d");
   ctx.strokeStyle="#FF0000";
   ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.lineTo(300, 150);
-  ctx.lineTo(600, 0);
-  for (var i = 0; i < nums; i++) {
-    
+  ctx.moveTo(good_dates[0], data_arr.temperature[arr_idx[0]]);
+  //ctx.lineTo(300, 150);
+  //ctx.lineTo(600, 0);
+  for (var i = 1; i < total_num; i++) {
+    ctx.lineTo(good_dates[i], data_arr.temperature[arr_idx[i]]);
   }
   ctx.stroke();
-  */
 }
 
 
@@ -193,13 +212,12 @@ var xhr;
 var old_response = "";
 var dims = 3;
 var max_rows = 10000;
-var date_arr = new Array(max_rows);
+/*var date_arr = new Array(max_rows);
 
 for(var i = 0; i < max_rows; i++) {
   date_arr[i] = new Array(dims);
 }
-
+*/
 
 get_data();
 setInterval(get_data, 20000);
-
