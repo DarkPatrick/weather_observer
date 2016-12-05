@@ -6,11 +6,13 @@
 </head>
 <body>
 
-<div id = "main"><div>
+<input type="text" id="start_date">
+<input type="text" id="end_date">
+<div id="main"><div>
 
 <script>
   var w = (document.body.clientWidth) * 0.95;
-  var h = (document.body.clientHeight) / 2;
+  var h = (document.body.clientHeight) / 2.1;
 
   var temperature = document.createElement('canvas');
   temperature.width = w;
@@ -25,6 +27,23 @@
   pressure.style = "border:1px solid #d3d3d3;";
   pressure.id = "pressure_chart_canvas";
   document.getElementById("main").appendChild(pressure);
+
+  var n =  new Date();
+  var y = n.getFullYear();
+  var m = n.getMonth() + 1;
+  var d = n.getDate();
+  var h = n.getHours();
+  var mm = n.getMinutes();
+  document.getElementById("end_date").value =
+    d + "/" +
+    m + "/" +
+    y + " " +
+    h + ":" + mm;
+  document.getElementById("start_date").value =
+    d + "/" +
+    m + "/" +
+    y + " " +
+    (h - 1) + ":" + mm;
 </script>
 
 <script type="text/javascript" src="chart.js"></script>
