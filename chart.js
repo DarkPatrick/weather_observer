@@ -491,3 +491,4 @@ end_date_el.onchange = applyNewData;
 get_data();
 setInterval(get_data, 20000);
 
+//http://serega622.esy.es/testFile.txt
